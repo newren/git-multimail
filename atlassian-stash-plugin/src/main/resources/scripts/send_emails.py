@@ -5,6 +5,7 @@ import sys
 git_multimail = imp.load_source('git_multimail', sys.argv[1])
 commit_url = sys.argv[2]+'%(rev)s'
 
+git_multimail.REVISION_HEADER_TEMPLATE = git_multimail.REVISION_HEADER_TEMPLATE.replace('From: %(fromaddr)s', 'From: %(reply_to)s')
 git_multimail.REVISION_FOOTER_TEMPLATE = "\nDirect link: "+commit_url+"\n-- \n"+git_multimail.FOOTER_TEMPLATE
 
 ### Change templates
