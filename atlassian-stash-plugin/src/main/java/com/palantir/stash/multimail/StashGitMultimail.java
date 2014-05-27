@@ -109,7 +109,9 @@ public class StashGitMultimail implements AsyncPostReceiveRepositoryHook, Reposi
         String submitter = user.getDisplayName() + " <" + user.getEmailAddress() + ">";
 
         Repository repo = context.getRepository();
-        String reponame = repo.getProject().getKey() + "/" + repo.getSlug();
+        String project_key = repo.getProject().getKey();
+        String repo_key = repo.getSlug();
+        String reponame = project_key + "/" + repo_key;
 
         // Determine any branches we are filtering on
         String ref_filter_regex = context.getSettings().getString("ref_filter_regex", "");
@@ -118,6 +120,7 @@ public class StashGitMultimail implements AsyncPostReceiveRepositoryHook, Reposi
         // Create the process
         ProcessBuilder pb = new ProcessBuilder("python2", email_script,
                                                git_multimail_script,
+                                               String.format("%s/projects/%s/repos/%s/commits/", appService.getBaseUrl(), project_key, repo_key),
                                                "--recipients", email_addresses,
                                                reverse_regex ? "--ref-filter-inclusion-regex" : "--ref-filter-exclusion-regex", ref_filter_regex,
                                                "--stash-user", submitter,

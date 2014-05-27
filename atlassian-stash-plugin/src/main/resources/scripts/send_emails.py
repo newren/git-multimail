@@ -3,6 +3,9 @@
 import imp
 import sys
 git_multimail = imp.load_source('git_multimail', sys.argv[1])
+commit_url = sys.argv[2]+'%(rev)s'
+
+git_multimail.REVISION_FOOTER_TEMPLATE = "\nDirect link: "+commit_url+"\n-- \n"+git_multimail.FOOTER_TEMPLATE
 
 ### Change templates
 #git_multimail.FOOTER_TEMPLATE = "Here is a link to an internal wiki page: http://local.net/about-commit-emails"
@@ -19,4 +22,4 @@ git_multimail = imp.load_source('git_multimail', sys.argv[1])
 
 # Just use git_multimail's default config, environments, and remaining
 # templates as-is
-git_multimail.main(sys.argv[2:])
+git_multimail.main(sys.argv[3:])
